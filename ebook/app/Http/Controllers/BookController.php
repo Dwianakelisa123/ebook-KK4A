@@ -39,18 +39,18 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        $tabel = new book();
-        $tabel->name = $request->title;
-        $tabel->name = $request->description;
-        $tabel->name = $request->author;
-        $tabel->name = $request->publisher;
-        $tabel->name = $request->date_of_issue;
-        $tabel->book();
+        $table = Book::create([
+            "title" => $request->title,
+            "description" => $request->description,
+            "author" => $request->author,
+            "publisher" => $request->publisher,
+            "date_of_issue" => $request->date_of_issue
+        ]);
 
         return response()->json([
-            "message"=>"store success",
-            "data"=>$tabel
-        ],201);
+            "message" => "Store success",
+            "data" => $table
+        ], 201);
     }
 
     /**

@@ -2,9 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HeloController;
+use App\Http\Controllers\heloController;
 use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,27 +22,22 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-/*
-* Task
-* URL : http://localhost/api/halo
-* METHOD: GET
-* Exec:function
-* Return: JSON => {"me": "Ganteng"}
-*/
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
-//Route::get('halo', function(){
-//   return["me"=> "ganteng"];
-//});
+// Route::get('/halo', function(){
+//     return ["me" => "tamvan"];
+// });
 
-Route::get('halo', function(){
-    $data = ["me" => "cantik"];
+// Route::get('/helo', [heloController::class, 'index']);
 
-    return $data;
+Route::get('/book', [BookController::class, 'index']);
+Route::get('/siswa', [SiswaController::class, 'index']);
+Route::get('/siswa/{id}', [SiswaController::class, 'show']);
+Route::get('/book/{id}', [BookController::class, 'show']);
+
+Route::middleware('auth:sanctum')->group(function(){
+    Route::resource('siswa', SiswaController::class)->except('create', 'edit', 'show', 'index');
+    Route::resource('book', BookController::class)->except('create', 'edit', 'show', 'index');
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
-
-//Route::get('helocontrol',[HeloController;;class, 'index']);
-//Route::get('helocontroller',[HeloController;;class, 'index']);
-//Route::get('helocontroller',[HeloController;;class, 'index']);
-Route::resource('helocontroller', HeloController::class);
-Route::resource('siswa', SiswaController::class);
-Route::resource('book', BookController::class);
